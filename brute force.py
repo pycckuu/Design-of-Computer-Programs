@@ -10,10 +10,10 @@ def solve(formula):
     
 def fill_in(formula):
     "Generate all possible fillings-in of letters in formula with digits."
-    letters = ''.join(set(re.findall('[A-Z]',formula))) #should be a string
-    for digits in itertools.permutations('1234567890', len(letters)):
-        table = string.maketrans(letters, ''.join(digits))
-        yield formula.translate(table)
+    letters = ''.join(set(re.findall('[A-Z]',formula))) #usin RegExp to make a set of letters from formula
+    for digits in itertools.permutations('1234567890', len(letters)): #intereate through all posibilities in gigits to letters
+        table = string.maketrans(letters, ''.join(digits)) #making like dictionary for let:dig map
+        yield formula.translate(table) #returning the formula in digit manner
     
 def valid(f):
     """Formula f is valid if and only if it has no 
