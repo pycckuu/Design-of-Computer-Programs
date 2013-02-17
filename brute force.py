@@ -1,15 +1,10 @@
 # -------------
 # User Instructions
 #
-# Write a function, solve(formula) that solves cryptarithmetic puzzles.
-# The input should be a formula like 'ODD + ODD == EVEN', and the 
-# output should be a string with the digits filled in, or None if the
-# problem is not solvable.
-#
-# Note that you will not be able to run your code yet since the 
-# program is incomplete. Please SUBMIT to see if you are correct.
+# Complete the fill_in(formula) function by adding your code to
+# the two places marked with ?????. 
 
-import string, re 
+import string, re, itertools
 
 def solve(formula):
     """Given a formula like 'ODD + ODD == EVEN', fill in digits to solve it.
@@ -17,10 +12,13 @@ def solve(formula):
     for f in fill_in(formula):
         if valid(f):
             return f
-    # Your code here
     
-# assume: def fill_in(formula):
-#        "Generate all possible fillings-in of letters in formula with digits."
+def fill_in(formula):
+    "Generate all possible fillings-in of letters in formula with digits."
+    letters = ''.join(set(re.findall('[A-Z]',formula))) #should be a string
+    for digits in itertools.permutations('1234567890', 5):
+        table = string.maketrans(letters, ''.join(digits))
+        yield formula.translate(table)
     
 def valid(f):
     """Formula f is valid if and only if it has no 
@@ -29,3 +27,7 @@ def valid(f):
         return not re.search(r'\b0[0-9]', f) and eval(f) is True
     except ArithmeticError:
         return False
+
+print solve('ODD+ODD==EVEN')
+
+
