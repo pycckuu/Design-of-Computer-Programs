@@ -28,6 +28,5 @@ def valid(f):
     except ArithmeticError:
         return False
 
-print solve('ODD+ODD==EVEN')
 
 
