@@ -1,9 +1,4 @@
-# -------------
-# User Instructions
-#
-# Complete the fill_in(formula) function by adding your code to
-# the two places marked with ?????. 
-
+from __future__ import division
 import string, re, itertools
 
 def solve(formula):
