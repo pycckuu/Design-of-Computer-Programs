@@ -75,7 +75,7 @@ def timedcalls(n, fn, *args):
             
     return  min(times), average(times), max(times)
 
-print instrument_fn(zebra_puzzle)
+
 
 
 
