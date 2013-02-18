@@ -1,6 +1,7 @@
 from __future__ import division
 import string, re, itertools, time
 from test_module import timedcall #importing function "timedcall" from file in the directory "test_module"
+from compile_word import compile_word
 
 def solve(formula):
     """Given a formula like 'ODD + ODD == EVEN', fill in digits to solve it.
@@ -24,6 +25,32 @@ def valid(f):
     except ArithmeticError:
         return False
 
+def faster_solve(formula):
+    """Given a formula like 'ODD + ODD == EVEN',fill in digits tp solve it/
+    Input formula is a string; output is a digit-filled-in string or None.
+    This version precompiles the formula; only 1 eval per formula """
+    f, letters = compile_formula(formula)
+    for digits in itertools.permutations((1,2,3,4,5,6,7,8,9,0), len(letters)):
+        try:
+            if f(*digits) is True:
+                table = string.maketrans(letters,''.join(map(str, digits)))
+                return formula.translate(table)
+        except ArithmeticError:
+            pass
+
+def compile_formula(formula, verbose=False):
+    """Compile formula into a function. Also return letters found, as a str,
+    in some order as parms of function. For example, 'YOU == ME**2' returns
+    (lamda Y,M,R,U,O: (U+10*O+100*Y) == (E+10*M)**2),'YMEUO')"""
+    letters = ''.join(set(re.findall('[A-Z]',formula)))
+    parms = ','.join(letters)
+    tokens = map(compile_word,re.split('([A-Z]+)',formula))
+    body = ''.join(tokens)
+    f = 'lambda %s: %s' % (parms, body)
+    if verbose: print f
+    return eval(f), letters
+
+
 
 examples = """TWO + TWO == FOUR
 A**2 + B**2 == C**2
@@ -45,8 +72,9 @@ def test():
     for example in examples:
         print 
         print '              ', example
-        print '%6.4f sec:    %s '%timedcall(solve,example)
+        print '%6.4f sec:    %s '%timedcall(faster_solve,example)
     print '%6.4f tot.' %(time.clock()-t0)
+test()
 
-import cProfile
-cProfile.run('test()')
+#import cProfile
+#cProfile.run('test()') # or it could be done in cmd "python -m cProfile 'brute_force.py' "
