@@ -1,6 +1,29 @@
+
+ #    There are five houses.
+ #    The Englishman lives in the red house.
+ #    The Spaniard owns the dog.
+ #    Coffee is drunk in the green house.
+ #    The Ukrainian drinks tea.
+ #    The green house is immediately to the right of the ivory house.
+ #    The Old Gold smoker owns snails.
+ #    Kools are smoked in the yellow house.
+ #    Milk is drunk in the middle house.
+ #    The Norwegian lives in the first house.
+ #    The man who smokes Chesterfields lives in the house next to the man with the fox.
+ #    Kools are smoked in the house next to the house where the horse is kept. [should be "... a house ...", see discussion below]
+ #    The Lucky Strike smoker drinks orange juice.
+ #    The Japanese smokes Parliaments.
+ #    The Norwegian lives next to the blue house.
+
+	# Now, who drinks water? Who owns the zebra? 
+	
 import itertools
 
-#imright = 
+def imright(h1,h2):
+	return h1-h2==1
+
+def nextto(h1,h2):
+	return abs(h1-h2)==1
 
 def zebra_puzzle():
 	houses = [first,_,midle,_,_] = [1, 2, 3, 4, 5]
