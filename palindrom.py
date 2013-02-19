@@ -14,33 +14,43 @@
 # below a certain threshold to be marked correct.
 #
 # Please do not use regular expressions to solve this quiz!
-
+loops = 0
+ret1=0
+ret2=0
+ret=False
 def longest_subpalindrome_slice(text):
     "Return (i, j) such that text[i:j] is the longest palindrome in text."
+    global loops, ret1, ret2, ret
     textCopy = text.lower()
     reversedText = str(text.lower())[::-1]
-    # print len(textCopy)
-    # print textCopy, reversedText
-    i=0
-    j=0
+    if len(textCopy)==0: return (0,0)
     for i in range(len(textCopy)):
-        if str(textCopy[i:]) == str(textCopy)[i:][::-1]:
-            return (i,len(textCopy)-i)
-        if str(textCopy[j:]) == str(textCopy)[j:][::-1]:
-            return (j,len(textCopy)-j)
-        for j in range(len(reversedText)-i):
-            if str(reversedText[j:]) == str(reversedText)[j:][::-1]:
-                return (i,len(textCopy)-j)
-            if textCopy[i:] == reversedText[j:]:# and len(textCopy[i:i-j])!=0 :
-                print textCopy[i:i-j]
-                print reversedText[j:j-i]
+        for j in range(len(reversedText)):
+
+            print str(textCopy[i:]), '|',str(reversedText)[j:]
+            if str(textCopy[i:]) == str(textCopy)[i:][::-1] and len(textCopy[i:i-j])>1:
+                print 1
+                return (i,len(textCopy)-i)
+            if str(reversedText[j:]) == str(reversedText)[j:][::-1] and len(textCopy[i:i-j])>1:
+                print 2
                 print (i,len(textCopy)-j)
                 return (i,len(textCopy)-j)
+            if textCopy[i:] == reversedText[j:] and len(textCopy[i:i-j])>1:
+                print 3
+                print  (i,len(textCopy)-j)
+                return (i,len(textCopy)-j)
+            if str(textCopy)[i:] == str(reversedText)[:len(textCopy)-i] and len(str(textCopy)[i:])>1:
+                print 4
+                return (i,len(textCopy))
+            #if str(textCopy)[i:] == str(reversedText)[:-j]:
+             #   print 5
+    textCopy = str(textCopy[:-1])
+    print textCopy
+    return longest_subpalindrome_slice(textCopy)
+ 
 
-            #if 
-    
 
-    
+
 def test():
     L = longest_subpalindrome_slice
     assert L('racecar') == (0, 7)
