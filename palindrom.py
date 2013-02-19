@@ -14,40 +14,21 @@
 # below a certain threshold to be marked correct.
 #
 # Please do not use regular expressions to solve this quiz!
-loops = 0
-ret1=0
-ret2=0
-ret=False
 def longest_subpalindrome_slice(text):
     "Return (i, j) such that text[i:j] is the longest palindrome in text."
-    global loops, ret1, ret2, ret
-    textCopy = text.lower()
-    reversedText = str(text.lower())[::-1]
-    if len(textCopy)==0: return (0,0)
-    for i in range(len(textCopy)):
-        for j in range(len(reversedText)):
+    if text == '':return(0,0)
+    def length(slice): a,b = slice; return b-a
+    candidates = [grow(text,start,end) 
+                for start in range(len(text))
+                for end in (start,start+1)]
+    return max(candidates, key=length)
 
-            print str(textCopy[i:]), '|',str(reversedText)[j:]
-            if str(textCopy[i:]) == str(textCopy)[i:][::-1] and len(textCopy[i:i-j])>1:
-                print 1
-                return (i,len(textCopy)-i)
-            if str(reversedText[j:]) == str(reversedText)[j:][::-1] and len(textCopy[i:i-j])>1:
-                print 2
-                print (i,len(textCopy)-j)
-                return (i,len(textCopy)-j)
-            if textCopy[i:] == reversedText[j:] and len(textCopy[i:i-j])>1:
-                print 3
-                print  (i,len(textCopy)-j)
-                return (i,len(textCopy)-j)
-            if str(textCopy)[i:] == str(reversedText)[:len(textCopy)-i] and len(str(textCopy)[i:])>1:
-                print 4
-                return (i,len(textCopy))
-            #if str(textCopy)[i:] == str(reversedText)[:-j]:
-             #   print 5
-    textCopy = str(textCopy[:-1])
-    print textCopy
-    return longest_subpalindrome_slice(textCopy)
- 
+def grow(text,start,end):
+        "Start with a 0- or 1- length palindrome; try to grow a bigger palindrome"
+        while (start > 0 and end < len(text) and text[start-1].upper() == text[end].upper()):
+            start -= 1; end += 1
+        return (start,end)
+
 
 
 
